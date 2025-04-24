@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="content-section">
+    <legend class="text-center border-bottom mb-4 fw-bold">Read Book</legend>
+    <p class="fw-bold">Book Title: <span style="font-size: 20px;font-weight: 400;">{{book.title}}</span> </p>
+    <p class="fw-bold">Pages: <span style="font-size: 20px;font-weight: 400;">{{book.pages}}</span></p>
+    <p class="fw-bold">Description: <span style="font-size: 20px;font-weight: 400;">{{book.description}}</span></p>
+    <p class="fw-bold">Isbn Number: <span style="font-size: 20px;font-weight: 400;">{{book.isbn}}</span></p>
+    <p class="fw-bold">Published Date: <span style="font-size: 20px;font-weight: 400;">{{book.published_date.strftime('%Y-%m-%d')}}</span></p>
+
+    <h3 style="text-align: center;color: brown; border-bottom: 1px solid black;margin-bottom: 15px;">content Of the Book</h3>
+    <p>{{book.content}}</p>
+</div>
+
+
+
+{% endblock content %}
+# .strftime('%Y-%m-%d')

@@ -1,0 +1,137 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <div class="content-section">
+      <form action="" method="POST">
+           {{ form.hidden_tag() }}
+           <fieldset class="form-group">
+                <legend class="border-bottom mb-4" style="text-align: center;">Register</legend>
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+
+                    {% if form.username.errors %}
+                     {{ form.username(class="form-control form-control-lg is-invalid") }}
+                     <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                     </div>
+                     {% else %}
+                     {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
+
+                    
+                </div>
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                    {{ form.email(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                       {% for error in form.email.errors %}
+                       <span>{{ error }}</span>
+                       {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.email(class="form-control form-control-lg") }}
+                   {% endif %}
+
+                </div>
+                <div class="form-group">
+                    {{ form.password.label(class="form-control-label") }}
+                    {% if form.password.errors %}
+                    {{ form.password(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                       {% for error in form.password.errors %}
+                       <span>{{ error }}</span>
+                       {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.password(class="form-control form-control-lg") }}
+                   {% endif %}
+
+                    
+                </div>
+                <div class="form-group">
+                    {{ form.confirm_password.label(class="form-control-label") }}
+                    {% if form.confirm_password.errors %}
+                    {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                       {% for error in form.confirm_password.errors %}
+                       <span>{{ error }}</span>
+                       {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.confirm_password(class="form-control form-control-lg") }}
+                   {% endif %}
+
+                </div>
+                <div class="form-group">
+                  {{ form.role.label(class="form-control-label") }}
+                  {% if form.role.errors %}
+                  {{ form.role(class="form-control form-control-lg is-invalid") }}
+                  <div class="invalid-feedback">
+                     {% for error in form.role.errors %}
+                     <span>{{ error }}</span>
+                     {% endfor %}
+                  </div>
+                  {% else %}
+                  {{ form.role(class="form-control form-control-lg") }}
+                 {% endif %}
+
+              </div>
+              <div class="form-group" id="admin-code-wrapper">
+               {{ form.admin_code.label(class="form-control-label") }}
+               {% if form.admin_code.errors %}
+               {{ form.admin_code(class="form-control form-control-lg is-invalid") }}
+               <div class="invalid-feedback">
+                  {% for error in form.admin_code.errors %}
+                  <span>{{ error }}</span>
+                  {% endfor %}
+               </div>
+               {% else %}
+               {{ form.admin_code(class="form-control form-control-lg") }}
+              {% endif %}
+
+           </div>
+           
+         
+           </fieldset>
+           <div class="form-group mt-3" style="text-align: center;">
+              {{ form.submit(class="btn btn-outline-info w-25") }}
+           </div>
+      </form>
+      <div class="text-center p-3">
+        <small class="text-muted">
+         Already have an account? <a class="ml-2" href="{{url_for('login')}}">Sign In</a>
+        </small>
+   </div>
+  </div>
+  
+
+{% endblock content %}
+
+
+{% block scripts %}
+# javascript
+<script>
+   document.addEventListener('DOMContentLoaded', function () {
+       const roleSelect = document.querySelector('select[name="role"]');
+       const adminCodeWrapper = document.getElementById('admin-code-wrapper');
+
+       function toggleAdminCodeField() {
+           if (roleSelect.value === 'admin') {
+               adminCodeWrapper.style.display = 'block';
+           } else {
+               adminCodeWrapper.style.display = 'none';
+           }
+       }
+
+       // Run it once on page load
+       toggleAdminCodeField();
+
+       // Run it whenever the role changes
+       roleSelect.addEventListener('change', toggleAdminCodeField);
+   });
+</script>
+
+{% endblock scripts %} 

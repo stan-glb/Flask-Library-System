@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+
+   <div style="width: 100%;"><h3>Your code is {{ code.code }}</h3></div>
+   
+   <div class="refresh-info">
+       <p>Page will refresh in <span id="countdown">20</span> seconds...</p>
+   </div>
+
+
+
+ 
+{% endblock content %}
+
+{% block scripts %}
+   <script>
+      document.addEventListener('DOMContentLoaded', function() {
+         // Set the initial countdown value
+         let seconds = 20;
+         const countdownElement = document.getElementById('countdown');
+         
+         // Update countdown every second
+         const countdownInterval = setInterval(function() {
+            seconds--;
+            countdownElement.textContent = seconds;
+            
+            if (seconds <= 0) {
+                  clearInterval(countdownInterval);
+                  window.location.reload(true);  // Force reload from server
+            }
+         }, 1000);
+      });
+      </script>
+{% endblock scripts %}
+
+

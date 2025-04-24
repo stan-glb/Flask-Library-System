@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<!-- Search Form -->
+<div class="w-100 d-flex justify-content-center">
+  <form method="GET" action="{{ url_for('home') }}" class="mb-4 d-flex w-75 justify-content-center">
+    <input type="text" name="q" class="form-control me-2 w-50" placeholder="Search books..." value="{{ request.args.get('q', '') }}">
+    <button type="submit" class="btn btn-outline-primary">Search</button>
+  </form>
+</div>
+
+<!-- Book Cards -->
+
+  {% for book in books.items %}
+    <div class="card me-3 mb-3" style="width: 15rem;">
+      <img src="{{ url_for('static', filename='profile_pics/' + book.image_file) }}" class="card-img-top" alt="Book image" style="height: 10rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{ book.title }}</h5>
+        <p class="card-text">{{ book.description[:100] }}...</p>
+        <a href="{{ url_for('read_book', book_id=book.id) }}" class="btn btn-primary d-block mx-auto mb-3 w-50">Read Book</a>
+
+        {% if current_user.role == 'admin' %}
+          <a href="{{ url_for('update_book', book_id=book.id) }}" class="btn btn-secondary d-block mx-auto w-50 mb-3">Update</a>
+          <button class="btn btn-danger w-50 mx-auto d-block" data-bs-toggle="modal" data-bs-target="#deleteModal{{ book.id }}">Delete</button>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal{{ book.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ book.id }}" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="deleteModalLabel{{ book.id }}">Delete Book?</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <form action="{{ url_for('delete_book', book_id=book.id) }}" method="POST">
+              <input type="submit" class="btn btn-danger" value="Delete">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+
+<!-- Pagination -->
+<div class="w-100">
+  {% for page_num in books.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if page_num %}
+      {% if books.page == page_num %}
+        <a class="btn btn-info mb-4 mx-1" href="{{ url_for('home', page=page_num, q=request.args.get('q')) }}">{{ page_num }}</a>
+      {% else %}
+        <a class="btn btn-outline-info mb-4 mx-1" href="{{ url_for('home', page=page_num, q=request.args.get('q')) }}">{{ page_num }}</a>
+      {% endif %}
+    {% else %}
+      <span class="mx-2 mb-4">…</span>
+    {% endif %}
+  {% endfor %}
+</div>
+
+{% endblock content %}
